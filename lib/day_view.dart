@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_toolkit/flutter_toolkit.dart';
 
 import 'globals.dart';
+import 'saint_list.dart';
 
 class DayView extends StatefulWidget {
   final DateTime date, dateOld;
@@ -60,7 +61,6 @@ class _DayViewState extends State<DayView> {
                   lastDate: DateTime(2100))
               .then((newDate) {
             if (newDate != null) {
-              print("DISPATCH");
               DateChangedNotification(newDate).dispatch(context);
             }
           });
@@ -70,6 +70,6 @@ class _DayViewState extends State<DayView> {
         key: ValueKey(currentDate),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) =>
             [SliverAppBar(backgroundColor: Colors.transparent, pinned: false, title: dateWidget)],
-        body: const Center(child: Text("hello")));
+        body: SaintList(date: currentDate));
   }
 }

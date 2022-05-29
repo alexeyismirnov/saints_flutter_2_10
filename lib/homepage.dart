@@ -61,7 +61,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) => SafeArea(
       child: NotificationListener<Notification>(
           onNotification: (n) {
-            print("NOTIFICATION");
             if (n is DateChangedNotification) setDate(n.newDate);
             return true;
           },
