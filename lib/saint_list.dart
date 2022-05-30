@@ -5,6 +5,7 @@ import 'package:flutter_toolkit/flutter_toolkit.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'saint_model.dart';
+import 'saint_details.dart';
 
 class SaintList extends StatefulWidget {
   final DateTime date;
@@ -16,7 +17,9 @@ class SaintList extends StatefulWidget {
 }
 
 class SaintListState extends State<SaintList> {
-  Widget buildRow(Saint s) {
+  late List<Saint> saintData;
+
+  Widget buildRow(Saint s, int index) {
     var day = s.day;
     var month = s.month;
     Widget name;
@@ -36,30 +39,33 @@ class SaintListState extends State<SaintList> {
       name = RichText(
           text: TextSpan(text: '', style: style, children: [
         TextSpan(text: format.format(dt), style: style.copyWith(color: Colors.red)),
-        TextSpan(text: '   '),
+        const TextSpan(text: '   '),
         TextSpan(text: s.name)
       ]));
     } else {
       name = Text(s.name, style: style);
     }
 
-    return Container(
-        decoration: const BoxDecoration(color: Colors.transparent),
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            s.has_icon
-                ? Image.asset(
-                    'assets/icons/${s.id}.jpg',
-                    width: 100.0,
-                    height: 100.0,
-                  )
-                : Container(),
-            Expanded(child: Container(padding: const EdgeInsets.only(left: 10.0), child: name))
-          ],
-        ));
+    return GestureDetector(
+      child: Container(
+          decoration: const BoxDecoration(color: Colors.transparent),
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              s.has_icon
+                  ? Image.asset(
+                      'assets/icons/${s.id}.jpg',
+                      width: 100.0,
+                      height: 100.0,
+                    )
+                  : Container(),
+              Expanded(child: Container(padding: const EdgeInsets.only(left: 10.0), child: name))
+            ],
+          )),
+      onTap: () => SaintDetail(saintData, index).push(context),
+    );
   }
 
   @override
@@ -69,10 +75,12 @@ class SaintListState extends State<SaintList> {
         builder: (context, AsyncSnapshot<List<Saint>> snapshot) {
           if (!snapshot.hasData) return Container();
 
+          saintData = snapshot.data!;
+
           return CustomScrollView(slivers: [
             SliverList(
                 delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) => buildRow(snapshot.data![index]),
+                    (BuildContext context, int index) => buildRow(snapshot.data![index], index),
                     childCount: min(snapshot.data!.length, 100)))
           ]);
         });

@@ -32,14 +32,11 @@ class SaintModel {
   static Future<List<Saint>> _addSaints(DateTime date) async {
     List<Saint> result = [];
 
-    print("add saints");
-
     List<Map<String, Object?>> data = await db!.query("app_saint",
         columns: ['id', 'name', 'zhitie', 'has_icon'],
         where: "day=${date.day} AND month=${date.month}");
 
     for (final Map<String, Object?> row in data) {
-      print(row["name"]);
       result.add(Saint.fromMap(row));
     }
 

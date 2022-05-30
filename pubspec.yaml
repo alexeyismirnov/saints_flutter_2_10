@@ -17,6 +17,10 @@ dependencies:
   easy_localization: ^3.0.0
   supercharged: ^2.1.1
   rate_my_app: ^1.1.0+1
+  html2md: ^1.2.6
+  fluttertoast: ^8.0.9
+  gallery_saver: ^2.3.2
+  share_plus: ^4.0.4
 
   flutter_toolkit:
     path: /Users/alexey/workspace/flutter_toolkit
