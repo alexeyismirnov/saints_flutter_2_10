@@ -155,7 +155,7 @@ class _SaintDetailPageState extends State<SaintDetailPage> {
                                                   fit: BoxFit.contain,
                                                 )))),
                                   Container(
-                                      padding: const EdgeInsets.only(top: 10.0),
+                                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                                       constraints: const BoxConstraints(
                                         maxHeight: 80.0,
                                       ),

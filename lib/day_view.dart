@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_toolkit/flutter_toolkit.dart';
+import 'package:launch_review/launch_review.dart';
 
 import 'globals.dart';
 import 'saint_list.dart';
@@ -22,12 +23,57 @@ class _DayViewState extends State<DayView> {
   DateTime get currentDate => widget.date;
   DateTime get currentDateOS => widget.dateOld;
 
+  Widget _getActions() {
+    List<PopupMenuEntry> contextMenu = [
+      PopupMenuItem(
+          child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                AppThemeDialog().show(context);
+              },
+              child:
+                  const ListTile(leading: Icon(Icons.color_lens, size: 30.0), title: Text('Фон')))),
+      PopupMenuItem(
+          child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                FontSizeDialog().show(context).then((value) => setState(() {}));
+              },
+              child: const ListTile(
+                  leading: Icon(Icons.zoom_in_outlined, size: 30.0),
+                  title: Text('Шрифт')))),
+      PopupMenuItem(
+          child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                LaunchReview.launch(
+                    androidAppId: "com.alexey.test", iOSAppId: "1343569925");
+              },
+              child: const ListTile(
+                  leading: Icon(Icons.rate_review_outlined, size: 30.0),
+                  title: Text('Отзыв...')))),
+    ];
+
+    return Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: SizedBox(
+                width: 40,
+                height: 40,
+                child: PopupMenuButton(
+                  icon: const Icon(Icons.arrow_circle_down, size: 25),
+                  itemBuilder: (_) => contextMenu,
+                ))));
+  }
+
   @override
   Widget build(BuildContext context) {
     final df1 = DateFormat.yMMMMEEEEd('ru');
     final df2 = DateFormat.yMMMMd('ru');
 
     var dateWidget = GestureDetector(
+        behavior: HitTestBehavior.opaque,
         child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -66,10 +112,17 @@ class _DayViewState extends State<DayView> {
           });
         });
 
+    final key = currentDate.toIso8601String() + " - ${ConfigParam.fontSize.val()}";
+
     return NestedScrollView(
-        key: ValueKey(currentDate),
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) =>
-            [SliverAppBar(backgroundColor: Colors.transparent, pinned: false, title: dateWidget)],
+        key: ValueKey(key),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
+              SliverAppBar(
+                  backgroundColor: Colors.transparent,
+                  pinned: false,
+                  title: dateWidget,
+                  actions: [_getActions()])
+            ],
         body: SaintList(date: currentDate));
   }
 }

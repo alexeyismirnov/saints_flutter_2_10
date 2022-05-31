@@ -16,7 +16,7 @@ Future<void> main() async {
 
   await GlobalPath.ensureInitialized();
 
-  await ConfigParam.initSharedParams(initFontSize: 22);
+  await ConfigParam.initSharedParams();
   ConfigParamExt.favs = ConfigParam<List<String>>('favs', initValue: []);
 
   await DB.prepare(basename: "assets/db", filename: "saints.sqlite");
