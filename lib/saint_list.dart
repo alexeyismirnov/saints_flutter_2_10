@@ -8,9 +8,10 @@ import 'saint_model.dart';
 import 'saint_details.dart';
 
 class SaintList extends StatefulWidget {
-  final DateTime date;
+  final DateTime? date;
+  final List<String>? ids;
 
-  SaintList({required this.date});
+  SaintList({this.date, this.ids});
 
   @override
   SaintListState createState() => SaintListState();
@@ -47,31 +48,38 @@ class SaintListState extends State<SaintList> {
     }
 
     return GestureDetector(
-      child: Container(
-          decoration: const BoxDecoration(color: Colors.transparent),
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              s.has_icon
-                  ? Image.asset(
-                      'assets/icons/${s.id}.jpg',
-                      width: 100.0,
-                      height: 100.0,
-                    )
-                  : Container(),
-              Expanded(child: Container(padding: const EdgeInsets.only(left: 10.0), child: name))
-            ],
-          )),
-      onTap: () => SaintDetail(saintData, index).push(context),
-    );
+        child: Container(
+            decoration: const BoxDecoration(color: Colors.transparent),
+            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                s.has_icon
+                    ? Image.asset(
+                        'assets/icons/${s.id}.jpg',
+                        width: 100.0,
+                        height: 100.0,
+                      )
+                    : Container(),
+                Expanded(child: Container(padding: const EdgeInsets.only(left: 10.0), child: name))
+              ],
+            )),
+        onTap: () => SaintDetail(saintData, index).push(context));
   }
 
   @override
   Widget build(BuildContext context) {
+    Future<List<Saint>>? f;
+
+    if (widget.date != null) {
+      f = SaintModel.getSaints(widget.date!);
+    } else if (widget.ids != null) {
+      f = SaintModel.getFavSaints(widget.ids!);
+    }
+
     return FutureBuilder(
-        future: SaintModel.getSaints(widget.date),
+        future: f!,
         builder: (context, AsyncSnapshot<List<Saint>> snapshot) {
           if (!snapshot.hasData) return Container();
 

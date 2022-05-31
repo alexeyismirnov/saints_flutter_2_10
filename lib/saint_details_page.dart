@@ -52,44 +52,49 @@ class _SaintDetailPageState extends State<SaintDetailPage> {
     List<String> favs = List<String>.from(ConfigParamExt.favs.val());
     bool isFaved = favs.contains(widget.saint.id.toString());
 
-    List<PopupMenuEntry<String>> contextMenu = [];
+    List<PopupMenuEntry> contextMenu = [
+      PopupMenuItem(
+          child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                FontSizeDialog().show(context).then((value) => setState(() {}));
+              },
+              child: const ListTile(
+                  leading: Icon(Icons.zoom_in_outlined, size: 30.0), title: Text('Шрифт')))),
+      PopupMenuItem(
+          child: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
 
-    contextMenu.add(PopupMenuItem(
-      value: 'bookmark',
-      child: ListTile(
-        leading: isFaved
-            ? const Icon(Icons.bookmark, size: 30.0)
-            : const Icon(Icons.bookmark_border, size: 30.0),
-        title: const Text('Закладка'),
-      ),
-    ));
-
-    contextMenu.add(const PopupMenuItem(
-        value: 'share',
-        child: ListTile(leading: Icon(Icons.share, size: 30.0), title: Text('Поделиться'))));
-
-    return PopupMenuButton<String>(
-        itemBuilder: (_) => contextMenu,
-        onSelected: (action) {
-          switch (action) {
-            case 'bookmark':
-              if (isFaved) {
-                favs.removeWhere((String id) => id == widget.saint.id.toString());
-              } else {
-                favs.add(widget.saint.id.toString());
-              }
-
-              setState(() => ConfigParamExt.favs.set(favs));
-              break;
-
-            case 'share':
-              Share.share(markdown);
-              break;
-
-            default:
-              break;
+          if (isFaved) {
+            favs.removeWhere((String id) => id == widget.saint.id.toString());
+          } else {
+            favs.add(widget.saint.id.toString());
           }
-        });
+
+          setState(() => ConfigParamExt.favs.set(favs));
+        },
+        child: ListTile(
+          leading: isFaved
+              ? const Icon(Icons.bookmark, size: 30.0)
+              : const Icon(Icons.bookmark_border, size: 30.0),
+          title: const Text('Закладка'),
+        ),
+      )),
+      PopupMenuItem(
+          child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+                Share.share(markdown);
+              },
+              child: const ListTile(
+                  leading: Icon(Icons.share, size: 30.0), title: Text('Поделиться')))),
+    ];
+
+    return PopupMenuButton(
+      icon: const Icon(Icons.arrow_circle_down, size: 25),
+      itemBuilder: (_) => contextMenu,
+    );
   }
 
   @override
@@ -107,7 +112,8 @@ class _SaintDetailPageState extends State<SaintDetailPage> {
     final body1 = Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: fontSize);
     // final String
 
-    final mkText = SelectableText(markdown, style: body1);
+    final mkText =
+        SelectableText(markdown, key: ValueKey(ConfigParam.fontSize.val()), style: body1);
 
     return Scrollbar(
         controller: _scrollController,
@@ -155,7 +161,8 @@ class _SaintDetailPageState extends State<SaintDetailPage> {
                                                   fit: BoxFit.contain,
                                                 )))),
                                   Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                                      padding:
+                                          const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                                       constraints: const BoxConstraints(
                                         maxHeight: 80.0,
                                       ),

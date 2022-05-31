@@ -88,4 +88,21 @@ class SaintModel {
 
     return result;
   }
+
+  static Future<List<Saint>> getFavSaints(List<String> ids) async {
+    List<Saint> result = [];
+
+    db ??= await DB.open("saints.sqlite");
+
+    for (String idStr in ids) {
+      final id = int.parse(idStr);
+
+      List<Map<String, Object?>> data = await db!
+          .query("app_saint", columns: ['id', 'name', 'zhitie', 'has_icon'], where: "id=$id");
+
+      result.add(Saint.fromMap(data.first));
+    }
+
+    return result;
+  }
 }

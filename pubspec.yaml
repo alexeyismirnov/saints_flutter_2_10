@@ -22,6 +22,7 @@ dependencies:
   gallery_saver: ^2.3.2
   share_plus: ^4.0.4
   launch_review: ^3.0.1
+  visibility_detector: ^0.2.2
 
   flutter_toolkit:
     path: /Users/alexey/workspace/flutter_toolkit
