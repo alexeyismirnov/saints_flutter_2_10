@@ -12,6 +12,7 @@ class DateChangedNotification extends Notification {
 
 extension ConfigParamExt on ConfigParam {
   static var favs;
+  static var ver_5_0;
 }
 
 RateMyApp rateMyApp = RateMyApp(

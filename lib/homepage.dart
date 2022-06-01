@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
+import 'package:flutter_toolkit/flutter_toolkit.dart';
 
 import 'globals.dart';
 import 'day_view.dart';
+import 'install_app_dialog.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -22,12 +24,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     setDate(DateTime.now());
 
     WidgetsBinding.instance?.addObserver(this);
+
+    Future.delayed(Duration.zero, () => postInit());
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
+  }
+
+  void postInit() {
+    if (!ConfigParamExt.ver_5_0.val()) {
+      ConfigParamExt.ver_5_0.set(true);
+      InstallAppDialog().show(context);
+    }
   }
 
   @override

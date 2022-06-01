@@ -40,18 +40,15 @@ class _DayViewState extends State<DayView> {
                 FontSizeDialog().show(context).then((value) => setState(() {}));
               },
               child: const ListTile(
-                  leading: Icon(Icons.zoom_in_outlined, size: 30.0),
-                  title: Text('Шрифт')))),
+                  leading: Icon(Icons.zoom_in_outlined, size: 30.0), title: Text('Шрифт')))),
       PopupMenuItem(
           child: GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                LaunchReview.launch(
-                    androidAppId: "com.alexey.test", iOSAppId: "1343569925");
+                LaunchReview.launch(androidAppId: "com.alexey.test", iOSAppId: "1343569925");
               },
               child: const ListTile(
-                  leading: Icon(Icons.rate_review_outlined, size: 30.0),
-                  title: Text('Отзыв...')))),
+                  leading: Icon(Icons.rate_review_outlined, size: 30.0), title: Text('Отзыв...')))),
     ];
 
     return Align(
@@ -116,13 +113,14 @@ class _DayViewState extends State<DayView> {
 
     return NestedScrollView(
         key: ValueKey(key),
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [
-              SliverAppBar(
-                  backgroundColor: Colors.transparent,
-                  pinned: false,
-                  title: dateWidget,
-                  actions: [_getActions()])
-            ],
-        body: SaintList(date: currentDate));
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => [],
+        body: CustomScrollView(slivers: <Widget>[
+          SliverAppBar(
+              backgroundColor: Colors.transparent,
+              pinned: true,
+              title: dateWidget,
+              actions: [_getActions()]),
+          SliverFillRemaining(child: SaintList(date: currentDate))
+        ]));
   }
 }

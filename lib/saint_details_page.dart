@@ -117,74 +117,80 @@ class _SaintDetailPageState extends State<SaintDetailPage> {
 
     return Scrollbar(
         controller: _scrollController,
-        child: CustomScrollView(
-            controller: _scrollController,
-            physics: const ClampingScrollPhysics(),
-            slivers: <Widget>[
-              SliverAppBar(
-                  elevation: 0.0,
-                  expandedHeight: _appBarHeight,
-                  pinned: true,
-                  title: _showTitle ? Text(widget.saint.name) : null,
-                  actions: [_getActions()],
-                  bottom: controller != null && _showDots
-                      ? PreferredSize(
-                          preferredSize: const Size.fromHeight(48.0),
-                          child: Container(
-                              height: 48.0,
-                              alignment: Alignment.center,
-                              child: TabPageSelector(controller: controller)))
-                      : null,
-                  flexibleSpace: _showTitle
-                      ? null
-                      : FlexibleSpaceBar(
-                          title: null,
-                          background: Container(
-                            decoration: AppTheme.bg_decor_3() ??
-                                BoxDecoration(color: Theme.of(context).primaryColor),
-                            padding: const EdgeInsets.fromLTRB(10.0, kToolbarHeight, 10.0, 0.0),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  if (widget.saint.has_icon)
-                                    GestureDetector(
-                                        onTap: () => SaintPopup(widget.saint).show(context),
-                                        child: Material(
-                                            elevation: 10.0,
-                                            child: SizedBox(
-                                                height: 280.0,
-                                                child: FittedBox(
-                                                  child: Image.asset(
-                                                    "assets/icons/${widget.saint.id}.jpg",
-                                                  ),
-                                                  fit: BoxFit.contain,
-                                                )))),
-                                  Container(
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                                      constraints: const BoxConstraints(
-                                        maxHeight: 80.0,
-                                      ),
-                                      child: Center(
-                                          child: Text(widget.saint.name,
-                                              textAlign: TextAlign.center,
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                fontSize: 20.0,
-                                              ))))
-                                ]),
-                          ))),
-              SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) => Container(
-                          padding: const EdgeInsets.all(10.0),
-                          constraints: BoxConstraints(minHeight: _textMinHeight),
-                          decoration: AppTheme.bg_decor_2() ??
-                              BoxDecoration(color: Theme.of(context).canvasColor),
-                          child: SafeArea(top: false, child: mkText)),
-                      childCount: 1))
-            ]));
+        child: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration:
+                AppTheme.bg_decor_2() ?? BoxDecoration(color: Theme.of(context).canvasColor),
+            child: SafeArea(
+              top: false,
+                child: CustomScrollView(
+                    controller: _scrollController,
+                    physics: const ClampingScrollPhysics(),
+                    slivers: <Widget>[
+                  SliverAppBar(
+                      elevation: 0.0,
+                      expandedHeight: _appBarHeight,
+                      pinned: true,
+                      title: _showTitle ? Text(widget.saint.name) : null,
+                      actions: [_getActions()],
+                      bottom: controller != null && _showDots
+                          ? PreferredSize(
+                              preferredSize: const Size.fromHeight(48.0),
+                              child: Container(
+                                  height: 48.0,
+                                  alignment: Alignment.center,
+                                  child: TabPageSelector(controller: controller)))
+                          : null,
+                      flexibleSpace: _showTitle
+                          ? null
+                          : FlexibleSpaceBar(
+                              title: null,
+                              background: Container(
+                                decoration: AppTheme.bg_decor_3() ??
+                                    BoxDecoration(color: Theme.of(context).primaryColor),
+                                padding: const EdgeInsets.fromLTRB(10.0, kToolbarHeight, 10.0, 0.0),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: <Widget>[
+                                      if (widget.saint.has_icon)
+                                        GestureDetector(
+                                            onTap: () => SaintPopup(widget.saint).show(context),
+                                            child: Material(
+                                                elevation: 10.0,
+                                                child: SizedBox(
+                                                    height: 280.0,
+                                                    child: FittedBox(
+                                                      child: Image.asset(
+                                                        "assets/icons/${widget.saint.id}.jpg",
+                                                      ),
+                                                      fit: BoxFit.contain,
+                                                    )))),
+                                      Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5, horizontal: 25),
+                                          constraints: const BoxConstraints(
+                                            maxHeight: 80.0,
+                                          ),
+                                          child: Center(
+                                              child: Text(widget.saint.name,
+                                                  textAlign: TextAlign.center,
+                                                  maxLines: 3,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    fontSize: 20.0,
+                                                  ))))
+                                    ]),
+                              ))),
+                  SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) => Container(
+                              padding: const EdgeInsets.all(10.0),
+                              constraints: BoxConstraints(minHeight: _textMinHeight),
+                              decoration: AppTheme.bg_decor_2() ??
+                                  BoxDecoration(color: Theme.of(context).canvasColor),
+                              child: SafeArea(top: false, child: mkText)),
+                          childCount: 1))
+                ]))));
   }
 }
