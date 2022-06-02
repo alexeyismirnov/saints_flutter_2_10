@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:async';
 
 import 'package:flutter_toolkit/flutter_toolkit.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -10,8 +11,9 @@ import 'saint_details.dart';
 class SaintList extends StatefulWidget {
   final DateTime? date;
   final List<String>? ids;
+  final String? search;
 
-  SaintList({this.date, this.ids});
+  SaintList({this.date, this.ids, this.search});
 
   @override
   SaintListState createState() => SaintListState();
@@ -76,6 +78,8 @@ class SaintListState extends State<SaintList> {
       f = SaintModel.getSaints(widget.date!);
     } else if (widget.ids != null) {
       f = SaintModel.getFavSaints(widget.ids!);
+    } else if (widget.search != null && (widget.search?.length ?? 0) > 2) {
+      f = SaintModel.getSaintsByName(widget.search!);
     }
 
     return FutureBuilder(

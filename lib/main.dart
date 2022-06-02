@@ -9,6 +9,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'homepage.dart';
 import 'favs_page.dart';
 import 'about_page.dart';
+import 'search_page.dart';
 import 'globals.dart';
 
 Future<void> main() async {
@@ -19,6 +20,7 @@ Future<void> main() async {
 
   await ConfigParam.initSharedParams();
   ConfigParamExt.favs = ConfigParam<List<String>>('favs', initValue: []);
+  ConfigParamExt.search = ConfigParam<String>('search', initValue: '');
   ConfigParamExt.ver_5_0 = ConfigParam<bool>('ver_5_0', initValue: false);
 
   await DB.prepare(basename: "assets/db", filename: "saints.sqlite");
@@ -36,6 +38,8 @@ Future<void> main() async {
       child: RestartWidget(ContainerPage(tabs: [
         AnimatedTab(icon: const Icon(Icons.home), title: 'Жития', content: HomePage()),
         AnimatedTab(icon: const Icon(Icons.favorite), title: 'Закладки', content: FavsPage()),
-        AnimatedTab(icon: const Icon(Icons.info_outlined), title: 'Приложения', content: AboutPage()),
+        AnimatedTab(icon: const Icon(Icons.search), title: 'Поиск', content: SearchPage()),
+        AnimatedTab(
+            icon: const Icon(Icons.info_outlined), title: 'Приложения', content: AboutPage()),
       ]))));
 }

@@ -105,4 +105,29 @@ class SaintModel {
 
     return result;
   }
+
+  static Future<List<Saint>> getSaintsByName(String name) async {
+    List<Saint> result = [];
+
+    db ??= await DB.open("saints.sqlite");
+
+    List<Map<String, Object?>> data = await db!.query("app_saint",
+        columns: ['id', 'day', 'month', 'name', 'zhitie', 'has_icon'],
+        where: 'name LIKE "%$name%"');
+
+    for (final Map<String, Object?> row in data) {
+      result.add(Saint.fromMap(row));
+    }
+
+    data = await db!.rawQuery(
+        'SELECT app_saint.id,link_saint.day,link_saint.month,link_saint.name,app_saint.zhitie,app_saint.has_icon ' +
+            'FROM app_saint JOIN link_saint ON ' +
+            'app_saint.id = link_saint.id AND link_saint.name LIKE "%$name%"');
+
+    for (final Map<String, Object?> row in data) {
+      result.add(Saint.fromMap(row));
+    }
+
+    return result;
+  }
 }
