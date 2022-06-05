@@ -4,7 +4,7 @@ import 'package:flutter_toolkit/flutter_toolkit.dart';
 
 import 'dart:async';
 
-import 'church_calendar.dart';
+import 'church_day.dart';
 
 class Saint {
   late int id;
@@ -58,10 +58,10 @@ class SaintModel {
 
     db ??= await DB.open("saints.sqlite");
 
-    final codes = cal.feasts[date] ?? [];
+    final days = cal.getDays(date);
 
-    for (NameOfDay code in codes) {
-      final id = code.toInt();
+    for (var d in days) {
+      final id = d.id;
 
       List<Map<String, Object?>> data = await db!
           .query("app_saint", columns: ['id', 'name', 'zhitie', 'has_icon'], where: "id=$id");

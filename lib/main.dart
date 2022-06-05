@@ -14,6 +14,7 @@ import 'globals.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await EasyLocalization.ensureInitialized();
 
   await GlobalPath.ensureInitialized();

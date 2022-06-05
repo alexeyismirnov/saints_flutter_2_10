@@ -67,7 +67,13 @@ class SaintListState extends State<SaintList> {
                 Expanded(child: Container(padding: const EdgeInsets.only(left: 10.0), child: name))
               ],
             )),
-        onTap: () => SaintDetail(saintData, index).push(context));
+        onTap: () {
+          if (widget.ids != null || widget.search != null) {
+            SaintDetail([s], 0).push(context);
+          } else {
+            SaintDetail(saintData, index).push(context);
+          }
+        });
   }
 
   @override

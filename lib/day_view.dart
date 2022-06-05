@@ -7,6 +7,7 @@ import 'package:launch_review/launch_review.dart';
 
 import 'globals.dart';
 import 'saint_list.dart';
+import 'month_cell.dart';
 
 class DayView extends StatefulWidget {
   final DateTime date, dateOld;
@@ -96,13 +97,16 @@ class _DayViewState extends State<DayView> {
                   ]))
             ]),
         onTap: () {
-          showDatePicker(
-                  context: context,
-                  initialDate: currentDate,
-                  locale: const Locale('ru'),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2100))
-              .then((newDate) {
+          var dialog = AlertDialog(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              contentPadding: const EdgeInsets.all(5.0),
+              insetPadding: const EdgeInsets.all(0.0),
+              content: MonthViewConfig(
+                  lang: 'ru',
+                  child: MonthContainer(currentDate, cellBuilder: (date) => MonthViewCell(date))));
+
+          dialog.show(context).then((newDate) {
             if (newDate != null) {
               DateChangedNotification(newDate).dispatch(context);
             }

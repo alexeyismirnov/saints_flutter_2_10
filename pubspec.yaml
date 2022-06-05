@@ -23,6 +23,9 @@ dependencies:
   share_plus: ^4.0.4
   launch_review: ^3.0.1
   store_redirect: ^2.0.0
+  rxdart: ^0.18.1
+  jiffy: ^5.0.0
+  quiver: ^3.0.1+1
 
   flutter_toolkit:
     path: /Users/alexey/workspace/flutter_toolkit

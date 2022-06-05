@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:flutter_toolkit/flutter_toolkit.dart';
+import 'package:jiffy/jiffy.dart';
 
 import 'globals.dart';
 import 'day_view.dart';
@@ -34,7 +35,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  void postInit() {
+  void postInit() async {
+    await Jiffy.locale('ru');
+
     if (!ConfigParamExt.ver_5_0.val()) {
       ConfigParamExt.ver_5_0.set(true);
       InstallAppDialog().show(context);
